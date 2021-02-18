@@ -1,0 +1,50 @@
+import java.util.HashMap;
+import java.util.Locale;
+
+public class MaxOccurringChar {
+
+    public static void main(String []args){
+        String input = "Typically, ASCII characters are 256, so we use our Hash array size as 256. But if we know that our input string will have characters with value from 0 to 127 only, we can limit Hash array size as 128. Similarly, based on extra info known about input string, the Hash array size can be limited to 26.";
+        int maxCount= -1, minCount;
+        String maxStringOccurrance = null,minStringOccurrance = null;
+
+        HashMap<String,Integer> hmap = new HashMap<>();
+
+        input = input.replace(" ","").toLowerCase(Locale.ROOT);
+        minCount= input.length();
+        String[] letters = input.split("");
+        for (String inputLetters: letters) {
+            int count =0;
+            if (hmap.containsKey(inputLetters)){
+                int oldCount = hmap.get(inputLetters);
+                hmap.put(inputLetters,++oldCount);
+            }else {
+                hmap.put(inputLetters,1);
+            }
+            for (String compare:letters) {
+                if (inputLetters.equalsIgnoreCase(compare)){
+                    count++;
+                }
+
+            }
+
+            if (count > maxCount){
+                maxStringOccurrance =inputLetters;
+                maxCount = count;
+            } else if (count == maxCount && !maxStringOccurrance.contains(inputLetters)) {
+                maxStringOccurrance = maxStringOccurrance+","+inputLetters;
+            }
+            if (count < minCount){
+                minStringOccurrance = inputLetters;
+                minCount= count;
+            } else if (count == minCount && !minStringOccurrance.contains(inputLetters)){
+                minStringOccurrance = minStringOccurrance+","+inputLetters;
+            }
+
+        }
+
+        System.out.println("Max Occurrence's :- "+maxStringOccurrance+" : "+maxCount+"\n"+
+                "Min Occurrence's :- "+minStringOccurrance+" : "+minCount+"\n"+
+                hmap);
+    }
+}
